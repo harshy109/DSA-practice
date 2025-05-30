@@ -3,6 +3,7 @@
 #include <unordered_set>
 #include <algorithm>
 #include <iostream>
+#include <unordered_map>
 using namespace std;
 class Solution {
 public:
@@ -30,3 +31,21 @@ public:
         return ans;
     }
 };
+
+//optimal solution 
+//create a map
+    unordered_map<string, vector<string>> hash;
+
+    for(auto str:strs){
+        string s = str;
+        sort(s.begin(), s.end());
+        hash[s].push_back(str);
+    }
+    //push mapping into answers
+    vector<vector<string>> ans;
+    
+    for(auto it : hash){
+        ans.push_back(it.second);
+    }
+
+    return ans;

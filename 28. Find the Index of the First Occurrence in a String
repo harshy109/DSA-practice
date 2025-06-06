@@ -1,0 +1,44 @@
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        int n = haystack.length();
+        int m = needle.length();
+
+        for(int i=0; i<=n-m; i++){
+            for(int j = 0; j<m; j++){
+                if(needle[j]!=haystack[i+j]){
+                    break;
+                }
+                if(j==m-1){
+                    return i;
+                }
+            }
+        }
+        return -1;
+
+
+        //int i = 0; 
+        
+        // while(i<haystack.length()){
+        //     int j = 0;
+        //     for(j=0; j<needle.length(); j++){   
+        //         if(needle[j] != haystack[i+j]){
+        //             break;
+        //         }
+        //     }
+        //     if(j==needle.length()){
+        //         return i;
+        //     }
+        //     i++;
+        // }
+        // return -1;
+
+
+        //O(n*m)
+        // int ans = haystack.find(needle);
+        // if(ans==string::npos){
+        //     return -1;
+        // }
+        // return ans;
+    }
+};

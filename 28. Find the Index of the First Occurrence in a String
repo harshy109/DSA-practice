@@ -1,6 +1,7 @@
 class Solution {
 public:
     int strStr(string haystack, string needle) {
+        //O(n*m)
         int n = haystack.length();
         int m = needle.length();
 
@@ -16,9 +17,8 @@ public:
         }
         return -1;
 
-
+        //OR
         //int i = 0; 
-        
         // while(i<haystack.length()){
         //     int j = 0;
         //     for(j=0; j<needle.length(); j++){   

@@ -22,5 +22,18 @@ public:
             }
         }
         return false;
+
+        // unordered_map<ListNode*, bool> m;
+        // ListNode* temp = head;
+        // while(temp!=NULL){
+        //     if(m[temp]==true){
+        //         return true;
+        //     }
+        //     else{
+        //         m[temp]=true;
+        //     }
+        //     temp = temp->next;
+        // }
+        // return false;
     }
 };

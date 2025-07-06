@@ -1,4 +1,30 @@
-
+//aproach 2
+class Solution {
+  public:
+    void solve(Node* &head, int &carry){
+        if(head==NULL){
+            return;
+        }
+        solve(head->next, carry);
+        int sum = head->data + carry;
+        int digit = sum%10;
+        carry = sum / 10;
+        head->data = digit;
+    }
+    Node* addOne(Node* head) {
+        // Your Code here
+        int carry = 1;
+        solve(head, carry);
+        if(carry != 0){
+            Node* newHead = new Node(carry);
+            newHead->next = head;
+            head = newHead;
+        }
+        return head; 
+        // return head of list after adding one
+    }
+};
+//approach 1
 class Solution {
   public:
     void insertAtTail(int value, Node* &head, Node* &tail){

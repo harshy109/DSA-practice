@@ -10,34 +10,29 @@
  * };
  */
 class Solution {
-    
 public:
-    bool findSum(TreeNode* root, int &targetSum, int sum){
-        
-        if(sum > targetSum){
-            return false;
-        }
-        else if(sum == targetSum){
-            return true;
-        }
-        else if(root == NULL){
-            return false;
-        }
-        
+    void solve(TreeNode* root, int &targetSum, int sum, vector<vector<int>> &ans, vector<int> temp){
+        if(root == NULL) return ;
 
         sum += root->val;
-        //bool currNode = root->val == targetSum ? true : false;
-        bool leftAns = findSum(root->left, targetSum, sum);
-        bool rightAns = findSum(root->right, targetSum, sum);
+        temp.push_back(root->val);
 
-        return  leftAns ||  rightAns;
-    }
-    bool hasPathSum(TreeNode* root, int targetSum) {
-        if(root == NULL){
-            return false;
+        if(root->left == NULL && root->right == NULL){
+            if(sum == targetSum){
+                ans.push_back(temp);
+            }
+            else{
+                return;
+            }
         }
-        if(targetSum = 0 && root->val!=0) return false;
 
-        return findSum(root, targetSum, 0);
+        solve(root->left, targetSum,sum, ans, temp);
+        solve(root->right, targetSum,sum, ans, temp);
+    }
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        vector<vector<int>> ans;
+        vector<int> temp;
+        solve(root, targetSum,0, ans, temp);
+        return ans;
     }
 };

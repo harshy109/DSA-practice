@@ -11,17 +11,39 @@
  */
 class Solution {
 public:
-    void solve(vector<int>& preorder, vector<int>& inorder, TreeNode* &tree){
+    int findIndex(vector<int>& inorder,int target){
+        for(int i = 0; i<inorder.size(); i++){
+            if(inorder[i] == target){
+                return i;
+            }
+        }
+        return -1;
+    }
+    TreeNode* constructTree(vector<int>& preorder, vector<int>& inorder, int &preOrderIndex , int inorderStartIndex, int inorderEndIndex, int size){
         //bse case
-        if(inorder.size() == 0){
-            return;
+        if(preOrderIndex >= size){
+            return NULL;
         }
 
-        TreeNode* root = inorder[0];
+        if(inorderStartIndex > inorderEndIndex){
+            return NULL;
+        }
+
+        int element = preorder[preOrderIndex];
+        preOrderIndex++;
+        int inorderMidIndex = findIndex(inorder, element);
+        TreeNode* root = new TreeNode(element);
+
+        //ab left me chalenge
+        //left = inorderStartIndex to inorderMidIndex-1;
+        //right = inorderMidIndex+1 to inorderEndIndex;
+        root->left = constructTree(preorder, inorder, preOrderIndex, inorderStartIndex, inorderMidIndex-1, size);
+        root->right = constructTree(preorder, inorder, preOrderIndex, inorderMidIndex+1, inorderEndIndex, size);
+        return root;
     }
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        TreeNode* tree;
-        solve(preorder, inorder, tree);
-        return tree;
+        int size = preorder.size();
+        int preOrderIndex = 0;
+        return constructTree(preorder, inorder, preOrderIndex, 0, size-1, size);
     }
 };

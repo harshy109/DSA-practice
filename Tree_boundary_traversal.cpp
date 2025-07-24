@@ -17,35 +17,35 @@ class Node {
 
 class Solution {
   public:
-    void leftBoundaries(Node *root, vector<int> &leftBoundary){
+    void leftBoundaries(Node *root, vector<int> &ans){
         if(root==NULL){
             return;
         }
         if(root->left == NULL && root->right == NULL){
             return;
         }
-        leftBoundary.push_back(root->data);
+        ans.push_back(root->data);
         if(root->left != NULL){
-            leftBoundaries(root->left, leftBoundary);
+            leftBoundaries(root->left, ans);
         }
         else{
-            leftBoundaries(root->right, leftBoundary);
+            leftBoundaries(root->right, ans);
         }
         
     }
     
-    void leafNodes(Node* root, vector<int> &leafNode ){
+    void leafNodes(Node* root, vector<int> &ans ){
         if(root==NULL) 
             return;
         
         if(root->left == NULL && root->right == NULL){
-            leafNode.push_back(root->data);
+            ans.push_back(root->data);
         }
-        leafNodes(root->left, leafNode);
-        leafNodes(root->right, leafNode);
+        leafNodes(root->left, ans);
+        leafNodes(root->right, ans);
     }
     
-    void rightBoundaries(Node *root, vector<int> &rightBoundary){
+    void rightBoundaries(Node *root, vector<int> &ans){
         if(root==NULL){
             return;
         }
@@ -53,12 +53,12 @@ class Solution {
             return;
         }
         if(root->right != NULL){
-            rightBoundaries(root->right, rightBoundary);
+            rightBoundaries(root->right, ans);
         }
         else{
-            rightBoundaries(root->left, rightBoundary);
+            rightBoundaries(root->left, ans);
         }
-        rightBoundary.push_back(root->data);
+        ans.push_back(root->data);
     }
     
     void print(vector<int> v){
@@ -67,32 +67,36 @@ class Solution {
         }cout<<endl;
     }
     vector<int> boundaryTraversal(Node *root) {
-        vector<int> leftBoundary;
-        vector<int> rightBoundary;
-        vector<int> leafNode;
+        // vector<int> leftBoundary;
+        // vector<int> rightBoundary;
+        // vector<int> leafNode;
         vector<int> ans;
+        //case 1  : root
+        ans.push_back(root->data);
         
-        leftBoundaries(root, leftBoundary);
-        leafNodes(root, leafNode);
-        rightBoundaries(root, rightBoundary);
+        leftBoundaries(root->left, ans);
+        
+        leafNodes(root->left, ans);
+        leafNodes(root->right, ans);
+        rightBoundaries(root->right, ans);
         
         // print(leftBoundary);
         // print(leafNode);
         // print(rightBoundary);
         
-        for(int i = 0; i<leftBoundary.size(); i++){
-            ans.push_back(leftBoundary[i]);
-        }
-        for(int i = 0; i<leafNode.size(); i++){
-            if(leafNode[i] != ans.back()){
-                ans.push_back(leafNode[i]);
-            }
-        }
-        for(int i = 0; i<rightBoundary.size(); i++){
-            if((rightBoundary[i] != ans.back()) && (rightBoundary[i] != ans.front())){
-                ans.push_back(rightBoundary[i]);
-            }    
-        }
+        // for(int i = 0; i<leftBoundary.size(); i++){
+        //     ans.push_back(leftBoundary[i]);
+        // }
+        // for(int i = 0; i<leafNode.size(); i++){
+        //     if(leafNode[i] != ans.back()){
+        //         ans.push_back(leafNode[i]);
+        //     }
+        // }
+        // for(int i = 0; i<rightBoundary.size(); i++){
+        //     if((rightBoundary[i] != ans.back()) && (rightBoundary[i] != ans.front())){
+        //         ans.push_back(rightBoundary[i]);
+        //     }    
+        // }
         return ans;
     }
 };

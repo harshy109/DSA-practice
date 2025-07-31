@@ -31,6 +31,9 @@ public:
                 }
             }
         }
+        if(longestSubarrayLength == INT_MIN){
+            return 0;
+        }
         return longestSubarrayLength;
     }
 };

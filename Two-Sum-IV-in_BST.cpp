@@ -55,7 +55,44 @@ public:
             return leftAns || rightAns ;
         }
     }
+
+    void storeInorder(TreeNode* root, vector<int> &v){
+        if(root == NULL){
+            return;
+        }
+        storeInorder(root->left, v);
+        v.push_back(root->val);
+        storeInorder(root->right, v);
+    }
+
+    bool checkPairSum(vector<int> &v, int k){
+        int s = 0;
+        int e = v.size() - 1;
+
+        while(s<e){
+            int sum = v[s] + v[e];
+            if(sum == k){
+                return true;
+            }
+            if(sum < k){
+                s++;
+            }
+            if(sum > k){
+                e--;
+            }
+        }
+        return false;
+    }
+
     bool findTarget(TreeNode* root, int k) {
+//O(n)
+        vector<int> v;
+        storeInorder(root, v);
+
+        bool ans = checkPairSum(v, k);
+        return ans;
+
+//O(n2) 
         // queue<TreeNode*> q;
         // levelOrder(root, q);
 
@@ -70,16 +107,17 @@ public:
         //     }
         // }
 
-        vector<int> v;
-        levelOrder(root, v);
+//O(n2)
+        // vector<int> v;
+        // levelOrder(root, v);
 
-        for(int i = 0; i<v.size(); i++){
-            for(int j = i+1; j<v.size(); j++){
-                if(v[i] + v[j] == k){
-                    return true;
-                }
-            }
-        }
-        return false;
+        // for(int i = 0; i<v.size(); i++){
+        //     for(int j = i+1; j<v.size(); j++){
+        //         if(v[i] + v[j] == k){
+        //             return true;
+        //         }
+        //     }
+        // }
+        // return false;
     }
 };

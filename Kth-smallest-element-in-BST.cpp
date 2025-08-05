@@ -20,10 +20,29 @@ public:
         v.push_back(root->val);
         inorder(root->right, v);
     }
+    void solve(TreeNode* root, int &k, int &ans){
+        if(root == NULL){
+            return;
+        }
+
+        solve(root->left, k, ans);
+        k--;
+        if(k == 0){
+            ans = root->val;
+            return;
+        }
+        solve(root->right, k, ans);
+    }
     int kthSmallest(TreeNode* root, int k) {
-        vector<int> v;
-        inorder(root,v);
-        // 1 2 3 4 5 6 
-        return v[k-1];
+        //O(n)
+        // vector<int> v;
+        // inorder(root,v);
+        // // 1 2 3 4 5 6 
+        // return v[k-1];
+
+        //SC= O(1)
+        int ans = 0;
+        solve(root, k , ans);
+        return ans;
     }
 };

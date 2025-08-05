@@ -1,7 +1,18 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
     //level order
-    void levelOrder(TreeNode* root, queue<TreeNode*> &queu){
+    void levelOrder(TreeNode* root, vector<int> &v){
         queue<TreeNode*> q;
         q.push(root);
         
@@ -9,7 +20,7 @@ public:
             TreeNode* front = q.front();
             q.pop();
 
-            queu.push(front);
+            v.push_back(front->val);
 
             //us data pe operation karo
             if(front->left){
@@ -45,17 +56,28 @@ public:
         }
     }
     bool findTarget(TreeNode* root, int k) {
-        queue<TreeNode*> q;
-        levelOrder(root, q);
+        // queue<TreeNode*> q;
+        // levelOrder(root, q);
 
         //5 - 3 - 6 - 2 - 4- 7
 
-        while(!q.empty()){
-            TreeNode* node = q.front();
-            q.pop();
-            bool ans = searchSumPair(root, node, k);
-            if(ans){
-                return true;
+        // while(!q.empty()){
+        //     TreeNode* node = q.front();
+        //     q.pop();
+        //     bool ans = searchSumPair(root, node, k);
+        //     if(ans){
+        //         return true;
+        //     }
+        // }
+
+        vector<int> v;
+        levelOrder(root, v);
+
+        for(int i = 0; i<v.size(); i++){
+            for(int j = i+1; j<v.size(); j++){
+                if(v[i] + v[j] == k){
+                    return true;
+                }
             }
         }
         return false;

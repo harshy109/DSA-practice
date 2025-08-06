@@ -14,7 +14,6 @@ public:
         if(root == NULL){
             return NULL;
         }
-
         if(root->val == p->val ){
             return p;
         }
@@ -22,21 +21,30 @@ public:
             return q;
         }
 
-        TreeNode* left = lowestCommonAncestor(root->left, p,q);
-        TreeNode* right = lowestCommonAncestor(root->right, p,q);
+        if(p->val  > root->val && q->val > root->val){
+            return lowestCommonAncestor(root->right, p, q);
+        }
+        if(p->val  < root->val && q->val < root->val){
+            return lowestCommonAncestor(root->left, p, q);
+        }
 
-        if(left == NULL && right == NULL){
-            return NULL;
-        }
-        if(left != NULL && right == NULL){
-            return left;
-        }
-        if(left == NULL && right != NULL){
-            return right;
-        }
-        if(left != NULL && right != NULL){
-            return root;
-        }
         return root;
+
+        // TreeNode* left = lowestCommonAncestor(root->left, p,q);
+        // TreeNode* right = lowestCommonAncestor(root->right, p,q);
+
+        // if(left == NULL && right == NULL){
+        //     return NULL;
+        // }
+        // if(left != NULL && right == NULL){
+        //     return left;
+        // }
+        // if(left == NULL && right != NULL){
+        //     return right;
+        // }
+        // if(left != NULL && right != NULL){
+        //     return root;
+        // }
+        // return root;
     }
 };

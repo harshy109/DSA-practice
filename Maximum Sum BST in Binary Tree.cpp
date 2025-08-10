@@ -1,8 +1,4 @@
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- 
+
 class Info{
     public:
     int minVal;

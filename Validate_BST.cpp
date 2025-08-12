@@ -11,18 +11,24 @@
  */
 class Info{
     public:
-    int minVal;
-    int maxVal;
+    long long minVal;
+    long long maxVal;
     bool isBST;
 };
 class Solution {
 public:
+        long long minCalculate(long long a, long long b, long long c){
+            return min(a, min(b,c));
+        }
+        long long maxCalculate(long long a, long long b, long long c){
+            return max(a, max(b,c));
+        }
     //1
     Info solve(TreeNode* root){
         if(root==NULL){
             Info temp;
-            temp.minVal = INT_MAX;
-            temp.maxVal = INT_MIN;
+            temp.minVal = LONG_MAX;
+            temp.maxVal = LONG_MIN;
             temp.isBST = true;
             return temp;
         }
@@ -30,8 +36,8 @@ public:
         Info rightAns = solve(root->right);
 
         Info current;
-        current.minVal = min(root->val, min(leftAns.minVal, rightAns.minVal) );
-        current.maxVal = max(root->val,max( leftAns.maxVal, rightAns.maxVal) );
+        current.minVal = minCalculate(root->val, leftAns.minVal, rightAns.minVal);
+        current.maxVal = maxCalculate(root->val, leftAns.maxVal, rightAns.maxVal);
         current.isBST = leftAns.isBST && rightAns.isBST && root->val > leftAns.maxVal && root->val < rightAns.minVal;
         return current; 
     }
@@ -45,7 +51,7 @@ public:
         inorder(root->right,v);
     }
     //3
-    bool validate(TreeNode* root,int lb, int ub){
+    bool validate(TreeNode* root,long long lb, long long ub){
         if(root== NULL){
             return true;
         }
@@ -59,8 +65,8 @@ public:
     }
     bool isValidBST(TreeNode* root) {
         //1
-        // Info myAns = solve(root);
-        // return myAns.isBST;
+        Info myAns = solve(root);
+        return myAns.isBST;
         //2
         // vector<int> v;
         // inorder(root, v);
@@ -71,9 +77,9 @@ public:
         // }
         // return true;
         //3
-        int lb = INT_MIN;
-        int ub = INT_MAX;
+        // long long lb = LONG_MIN;
+        // long long ub = LONG_MAX;
 
-        return validate(root, lb, ub);
+        // return validate(root, lb, ub);
     }
 };

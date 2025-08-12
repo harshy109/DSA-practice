@@ -17,6 +17,7 @@ class Info{
 };
 class Solution {
 public:
+    //1
     Info solve(TreeNode* root){
         if(root==NULL){
             Info temp;
@@ -34,6 +35,7 @@ public:
         current.isBST = leftAns.isBST && rightAns.isBST && root->val > leftAns.maxVal && root->val < rightAns.minVal;
         return current; 
     }
+    //2
     void inorder(TreeNode* root, vector<int> &v){
         if(root==NULL){
             return;
@@ -42,16 +44,36 @@ public:
         v.push_back(root->val);
         inorder(root->right,v);
     }
+    //3
+    bool validate(TreeNode* root,int lb, int ub){
+        if(root== NULL){
+            return true;
+        }
+        //preorder
+        bool isCurrBST = root->val > lb && root->val < ub;
+
+        bool isLeftBST = validate(root->left, lb, root->val);
+        bool isRightBST = validate(root->right, root->val , ub);
+
+        return isCurrBST && isLeftBST && isRightBST;
+    }
     bool isValidBST(TreeNode* root) {
+        //1
         // Info myAns = solve(root);
         // return myAns.isBST;
-        vector<int> v;
-        inorder(root, v);
-        for(int i = 0; i<v.size()-1; i++){
-            if(v[i+1] <= v[i]){
-                return false;
-            }
-        }
-        return true;
+        //2
+        // vector<int> v;
+        // inorder(root, v);
+        // for(int i = 0; i<v.size()-1; i++){
+        //     if(v[i+1] <= v[i]){
+        //         return false;
+        //     }
+        // }
+        // return true;
+        //3
+        int lb = INT_MIN;
+        int ub = INT_MAX;
+
+        return validate(root, lb, ub);
     }
 };

@@ -1,14 +1,17 @@
+struct cmp {
+    bool operator()(pair<float,vector<int>> &a, pair<float,vector<int>> &b) {
+        return a.first > b.first; // min-heap
+    }
+};
 class Solution {
 public:
     float calculateDistance(int x, int y){
-
-
         float ans = sqrt(x*x + y*y)*1.0;
         return ans;
     }
     vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
-        // priority_queue<float, vector<float>, greater<float>> pq;
-        priority_queue<pair<float, vector<int>>, vector<pair<float, vector<int>>>, greater<pair<float, vector<int>>> > pq;
+        //priority_queue<pair<float, vector<int>>, vector<pair<float, vector<int>>>, greater<pair<float, vector<int>>> > pq;
+        priority_queue<pair<float, vector<int>>, vector<pair<float, vector<int>>>, cmp > pq;
         //unordered_map<float, vector<int>> mp;
 
         for(auto p : points){
@@ -18,8 +21,8 @@ public:
         }
         vector<vector<int>> ans;
         while(k-- && !pq.empty()){
-            ans.push_back(pq.top().first);
-            pq.pop()
+            ans.push_back(pq.top().second);
+            pq.pop();
         }
         return ans;
     }

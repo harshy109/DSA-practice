@@ -12,7 +12,10 @@ class Trie{
 
 void insertTrie(Trie* root, string word){
     //base case
-
+    if(word.length() == 0){
+        root->isTerminal = true;
+        return;
+    }
 
     //ekl case hum solve krenge
     char ch = word[0];
@@ -30,23 +33,31 @@ void insertTrie(Trie* root, string word){
 
 class Solution {
 public:
-    void findlcp(vector<string>& strs, string &ans){
+    void findlcp(Trie* &root, string &ans){
         //base case
+        if(root->isTerminal == true){
+            return;
+        }
+
+
+        Trie* child;
 
         //ek case hum solve krenge
         if(root->children.size() == 1){
             for(auto it : root->children){
                 char ch = it.first;
                 ans.push_back(ch);
+                child = root->children[ch];
             }
-            else{
-                return;
-            }
+            
         }
-
+        else{
+            return;
+        }
+        findlcp(child, ans);
     }
     string longestCommonPrefix(vector<string>& strs) {
-        TrieNode* root = new TreiNode('-');
+        Trie* root = new Trie('-');
         
         for(auto str : strs){
             insertTrie(root, str);
@@ -55,11 +66,6 @@ public:
         string ans = "";
         findlcp(root, ans);
         return ans;
-
-
-
-
-
 
 
         // string ans;

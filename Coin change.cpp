@@ -76,6 +76,7 @@ public:
         }
         return dp[amount];
     }
+//no space optimization 
     int coinChange(vector<int>& coins, int amount) {
         // int ans  = findNumOfCoins(coins, amount);
         // if(ans==INT_MAX){

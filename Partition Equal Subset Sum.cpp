@@ -81,6 +81,31 @@ public:
             next = curr;
         }
         return curr[0];
+    }   
+    bool solveTabSO2(vector<int>& nums, int halfSum){
+        int n = nums.size();
+
+        //vector<int> next(halfSum+1, 0);
+        vector<int> curr(halfSum+1, 0);
+
+        curr[halfSum] = 1;
+
+        //range
+        //i = 0->n
+        //total = 0-> halfsum / total
+        for(int i = n-1; i>=0; i--){
+            for(int t = 0; t<=halfSum; t++){
+                bool include = 0;
+                if(t+nums[i] <= halfSum){
+                    include = curr[t + nums[i]]; 
+                }
+                bool exclude = curr[t];
+
+                curr[t] = include || exclude;
+            }
+            //next = curr;
+        }
+        return curr[0];
     }    
     bool canPartition(vector<int>& nums) {
         int sum = 0 ; 
@@ -98,6 +123,8 @@ public:
         // vector<vector<int>> dp(n+1, vector<int> (sum+1, -1));
         // return solveMem(nums,halfSum, 0, total,dp);
 
-        return solveTabSO(nums, halfSum);
+        //return solveTabulation(nums, halfSum);
+
+        return solveTabSO2(nums, halfSum);
     }
 };

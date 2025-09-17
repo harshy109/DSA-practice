@@ -44,12 +44,28 @@ class Solution {
         }
         return dp[n];
     }
+    int solveTabulationSO(int n, int k){
+        
+        int prev2 = k;
+        if( n == 1) return prev2;
+        int prev1 = (k*k)%mod;
+        if(n == 2) return prev1;
+        
+        //check range
+        ///n : n->1
+        for(int i = 3; i<=n; i++){
+            int curr = ((k-1) * (prev1%mod + prev2%mod)%mod)%mod;
+            prev2 = prev1;
+            prev1 = curr;
+        }
+        return prev1;
+    }
     int countWays(int n, int k) {
         //return solveRec(n, k);
         
         // vector<int> dp(n+1, -1);
         // return solveMem(n, k ,dp);
         
-        return solveTabulation(n,k);
+        return solveTabulationSO(n,k);
     }
 };

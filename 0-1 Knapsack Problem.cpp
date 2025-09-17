@@ -83,7 +83,8 @@ class Solution {
         
         //ananlyse base case
         for(int w = wt[0]; w<=capacity; w++){
-            //since hum 
+            //since hume initial state chahiye 
+            //prev hi store kar sakta hai
             prev[w] = val[0]; //important to initialise to work, on some intial value
         }
         
@@ -91,22 +92,25 @@ class Solution {
         //capacity : w -> 0
         //index  : n-1 -> 0
         
-        for(int weight = 0; weight<=capacity; weight++){
-            for(int index = 1; index<=n-1; index++){
+        //order of loop change kiya kyki hum sirf column use kar rhe hai
+        for(int index = 1; index<=n-1; index++){
+            for(int weight = 0; weight<=capacity; weight++){
                 //ek case me
                 //include exclude patterm
                 int inc = 0;
                 if(wt[index] <= weight){
-                    inc = val[index] + dp[weight-wt[index]][index-1];
+                    inc = val[index] + prev[weight-wt[index]];
                 }
-                int exc = dp[weight][index-1];
+                int exc = prev[weight];
                 
                 //ans store and return
-                dp[weight][index] = max(inc, exc);
+                curr[weight] = max(inc, exc);
             }
+            //shifting
+            prev = curr;
         }
         
-        return dp[capacity][n-1];
+        return prev[capacity];
     }
     int knapsack(int W, vector<int> &val, vector<int> &wt) {
         // code here
@@ -119,7 +123,9 @@ class Solution {
         // vector<vector<int>> dp(W+1, vector<int> (n+1, -1));
         // return solveWithMem(val, wt, W, n, dp);
         
-        return solveWithTab(W,val, wt);
+        // return solveWithTab(W,val, wt);
+        
+          return solveWithTabSO(W,val, wt);
         
     }
 };

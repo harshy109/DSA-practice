@@ -1,43 +1,52 @@
 class Solution {
 public:
-    int longestCommonSubsequence(string text1, string text2) {
-        int i=0;
-        int j=0;
-        int count=0;
-        int flag=0;
-        if(text1.size() > text2.size()){
-            while(i<text1.size()){
-                if(text1[i] == text2[j]){
-                    count++;
-                    flag = j++;
-                    i++;
-                }
-                else if(j == text2.size()-1){
-                    i++;
-                    j=flag;
-                }
-                else {
-                    j++;
-                }
-            }
+    int solveRec(string &text1, string &text2, int i, int j){
+        //base case
+        if(i >= text1.length()){
+            return 0;
+        }
+        if(j >= text2.length()){
+            return 0;
+        }
+
+        int ans = 0;
+        if(text1[i] == text2[j]){
+            ans = 1 + solveRec(text1, text2, i+1, j+1);
         }
         else{
-            while(i<text1.size()){
-                if(text1[i] == text2[j]){
-                    count++;
-                    flag = i++;
-                    j++;
-                }
-                else if(i == text1.size()-1){
-                    j++;
-                    i=flag;
-                }
-                else {
-                    i++;
-                }
-            }
+            ans = 0 + max(solveRec(text1, text2, i+1, j), solveRec(text1, text2, i, j+1));
         }
-        
-        return count;
+        return ans;
+    }
+    int solveMem(string &text1, string &text2, int i, int j, vector<vector<int>> &dp){
+        //base case
+        if(i >= text1.length()){
+            return 0;
+        }
+        if(j >= text2.length()){
+            return 0;
+        }
+
+        //check existing ans
+        if( dp[i][j] != -1){
+            return  dp[i][j] ;
+        }
+
+        int ans = 0;
+        if(text1[i] == text2[j]){
+            ans = 1 + solveMem(text1, text2, i+1, j+1, dp);
+        }
+        else{
+            ans = 0 + max(solveMem(text1, text2, i+1, j, dp), solveMem(text1, text2, i, j+1, dp));
+        }
+        dp[i][j] = ans;
+        return  dp[i][j];
+    }
+    int longestCommonSubsequence(string text1, string text2) {
+        //return solveRec(text1,text2, 0,0);
+
+        //2D dp
+        vector<vector<int>> dp(text1.length()+1, vector<int>(text2.length()+1, -1));
+        return solveMem(text1, text2, 0, 0, dp);
     }
 };

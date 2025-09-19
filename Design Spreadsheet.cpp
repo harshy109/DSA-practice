@@ -1,7 +1,8 @@
 class Spreadsheet {
 public:
     vector<vector<long long int>> grid;
-    unordered_map<char, vector<int>> gridMap;
+    // unordered_map<char, vector<int>> gridMap;
+    unordered_map<string , int> gridMap;
 
     long long int calci(long long int a, long long int b, char op){
         switch(op){
@@ -13,69 +14,83 @@ public:
         return 0;
     }
     Spreadsheet(int rows) {
-        vector<vector<long long int>> grids(rows, vector<long long int>(26,0));
-        this->grid = grids;
+        // vector<vector<long long int>> grids(rows, vector<long long int>(26,0));
+        // this->grid = grids;
     }
     
     void setCell(string cell, int value) {
-        int col = cell[0]-'A';
-        string newStr = cell.substr(1);
-        int row = 0;
-        for(char ch : newStr){
-            int rem = ch - '0';
-            row = row*10 + rem;
-        }
-        grid[row-1][col] = value;
+        // int col = cell[0]-'A';
+        // string newStr = cell.substr(1);
+        // int row = 0;
+        // for(char ch : newStr){
+        //     int rem = ch - '0';
+        //     row = row*10 + rem;
+        // }
+        // grid[row-1][col] = value;
+
+        gridMap[cell] = value;
     }
     
     void resetCell(string cell) {
-       int col = cell[0]-'A';
-        string newStr = cell.substr(1);
-        int row = 0;
-        for(char ch : newStr){
-            int rem = ch - '0';
-            row = row*10 + rem;
-        }
-        grid[row-1][col] = 0;
+    //    int col = cell[0]-'A';
+    //     string newStr = cell.substr(1);
+    //     int row = 0;
+    //     for(char ch : newStr){
+    //         int rem = ch - '0';
+    //         row = row*10 + rem;
+    //     }
+    //     grid[row-1][col] = 0;
+            gridMap[cell] = 0;
     }
     
     int getValue(string formula) {
-        int i = 1;
-        int a = 0, b = 0;
-        char op =' ';
-            while(formula[i] >='0' && formula[i]<='9'){
-                int rem = formula[i]-'0';
-                a = a*10 + rem;
-                i++;
-            }
-            if(i==1){
-                int col = formula[i++]-'A';
-                int row = 0;
-                while(formula[i] >='0' && formula[i]<='9'){
-                    int rem = formula[i]-'0';
-                    row = row*10 + rem;
-                    i++;
-                }    
-                a = grid[row-1][col];
-            }
-            op = formula[i++];
-            while(formula[i] >='0' && formula[i]<='9'){
-                int rem = formula[i]-'0';
-                b= b*10 + rem;
-                i++;
-            }
-            if(i<formula.length()){
-                int col = formula[i++]-'A';
-                int row = 0;
-                while(formula[i] >='0' && formula[i]<='9'){
-                    int rem = formula[i]-'0';
-                    row = row*10 + rem;
-                    i++;
-                }  
-                b = grid[row-1][col];
-            }
+        // int i = 1;
+        // int a = 0, b = 0;
+        // char op =' ';
+        //     while(formula[i] >='0' && formula[i]<='9'){
+        //         int rem = formula[i]-'0';
+        //         a = a*10 + rem;
+        //         i++;
+        //     }
+        //     if(i==1){
+        //         int col = formula[i++]-'A';
+        //         int row = 0;
+        //         while(formula[i] >='0' && formula[i]<='9'){
+        //             int rem = formula[i]-'0';
+        //             row = row*10 + rem;
+        //             i++;
+        //         }    
+        //         a = grid[row-1][col];
+        //     }
+        //     op = formula[i++];
+        //     while(formula[i] >='0' && formula[i]<='9'){
+        //         int rem = formula[i]-'0';
+        //         b= b*10 + rem;
+        //         i++;
+        //     }
+        //     if(i<formula.length()){
+        //         int col = formula[i++]-'A';
+        //         int row = 0;
+        //         while(formula[i] >='0' && formula[i]<='9'){
+        //             int rem = formula[i]-'0';
+        //             row = row*10 + rem;
+        //             i++;
+        //         }  
+        //         b = grid[row-1][col];
+        //     }
         
-        return calci(a, b, op);
+        // return calci(a, b, op);
+        string f = formula;
+        for(int i=1; i<f.length(); i++){
+            if(f[i]=='+'){
+                string s1 = f.substr(1, i-1);
+                string s2 = f.substr(i+1);
+                int left = s1[0] >='0' && s1[0]<='9' ? stoi(s1) : gridMap[s1];
+                int right = s2[0] >='0' && s2[0]<='9' ? stoi(s2) : gridMap[s2];
+                return left+right;
+            }
+        }
+        return 0;
     }
 };
 

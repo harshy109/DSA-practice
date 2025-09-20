@@ -109,6 +109,45 @@ public:
         }
         return dp[0][0];
     }
+    bool solveTabSO(string &s, string &p, int m, int n){
+        vector<int> curr(n+1, 0);
+        vector<int> next(n+1, 0);
+
+        next[n] = true;
+
+        for(int col = 0; col<n; col++){
+            bool flag = true;
+            for(int k = col; k<p.length(); k++){
+                //koi  bhi ek * nhi tha
+                if(p[k] != '*'){
+                    flag = false;
+                    break;
+                }
+            }
+            //sare hi * the
+            next[col] =  flag;
+        }
+
+        //main logic
+        for(int i = m-1;i>=0;i--){
+            for(int j = n-1; j>=0; j--){
+                //match 
+                bool ans = false; 
+                if(s[i] == p[j] || p[j] == '?'){
+                    ans = next[j+1];
+                }
+                else if(p[j]=='*'){
+                    ans = next[j] || curr[j+1];
+                }
+                else{
+                    ans = false;
+                }
+                curr[j] = ans;
+            }
+            next = curr;
+        }
+        return next[0];
+    }
     bool isMatch(string s, string p) {
         //return solveRec(s,p, 0, 0);
 
@@ -117,6 +156,6 @@ public:
 
         int m= s.length();
         int n= p.length();
-        return solveTab(s,p,m,n);
+        return solveTabSO(s,p,m,n);
     }
 };

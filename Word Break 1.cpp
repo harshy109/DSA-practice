@@ -60,11 +60,30 @@ public:
         dp[start] = flag;
         return dp[start];
     }
-    // bool solveTab()
+    bool solveTab(string s, vector<string>& wordDict){
+        vector<int> dp(s.size()+1, 1);
+
+        for(int i = s.size(); i>=0; i--){
+            string word = "";
+            bool flag = false;
+            for(int j = i; j<s.length(); j++) {
+                word += s[j];
+                if(check(wordDict, word)){
+                    flag = flag || solveMem(s, wordDict, j+1, dp);
+                }
+            }
+            dp[i] = flag;
+        }
+        return dp[0];
+    }
     bool wordBreak(string s, vector<string>& wordDict) {
         //return solve(s, wordDict);
-        vector<int> dp(s.size()+1, -1);
         // return solveRec(s, wordDict, 0);
-        return solveMem(s, wordDict, 0, dp);
+        
+        //vector<int> dp(s.size()+1, -1);
+        //return solveMem(s, wordDict, 0, dp);
+
+        return solveTab(s, wordDict);
+        
     }
 };

@@ -33,14 +33,14 @@ public:
         if(i==s1.length() && j==s2.length()){
             return 0;
         }
-        else if(i>=s1.length()){
+        if(i==s1.length()){
             int sum = 0;
             while(j<s2.length()){
                 sum+= s2[j++];
             }
             return sum;
         }
-        else if(j>=s2.length()){
+        if(j==s2.length()){
             int sum = 0;
             while(i<s1.length()){
                 sum+= s1[i++];
@@ -62,11 +62,53 @@ public:
         dp[i][j] = ans;
         return dp[i][j];
     }
-    int minimumDeleteSum(string s1, string s2) {
-        //return solveRec(s1, s2, 0,0);
+    int solveTab(string &s1, string &s2){
         int m = s1.length();
         int n = s2.length();
-        vector<vector<int>> dp(m+1, vector<int>(n+1, -1));
-        return solveMem(s1,s2, 0,0,dp);
+        vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
+
+        //i = len
+        for(int col = 0; col<=n; col++){
+            int sum = 0;
+            while(col<s2.length()){
+                sum += s2[col++];
+            }
+            dp[m][col] = sum;
+        }
+
+        //for j = len
+        for(int row = 0; row<=n; row++){
+            int sum = 0;
+            while(row<s1.length()){
+                sum += s1[row++];
+            }
+            dp[row][n] = sum;
+        }
+
+        for(int i = m-1; i>=0; i--){
+            for(int j = n-1; j>=0;j--){
+                int ans = 0;
+                if(s1[i] == s2[j]){
+                    ans = dp[i+1][j+1];
+                }
+                else{
+                    int leftDelete = s1[i] + dp[i+1][j];
+                    int rightDelete = s2[j] + dp[i][j+1];
+                    ans = min(leftDelete, rightDelete);
+                }
+                dp[i][j] = ans;
+            }
+        }
+        return dp[0][0];
+    }
+    int minimumDeleteSum(string s1, string s2) {
+        //return solveRec(s1, s2, 0,0);
+
+        // int m = s1.length();
+        // int n = s2.length();
+        // vector<vector<int>> dp(m+1, vector<int>(n+1, -1));
+        // return solveMem(s1,s2, 0,0,dp);
+
+        
     }
 };

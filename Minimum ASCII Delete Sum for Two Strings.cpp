@@ -35,15 +35,21 @@ public:
         }
         if(i==s1.length()){
             int sum = 0;
-            while(j<s2.length()){
-                sum+= s2[j++];
+            // while(j<s2.length()){
+            //     sum+= s2[j++];
+            // }
+            for(int k = j; k<s2.length(); k++){
+                sum += s2[k];
             }
             return sum;
         }
         if(j==s2.length()){
             int sum = 0;
-            while(i<s1.length()){
-                sum+= s1[i++];
+            // while(i<s1.length()){
+            //     sum+= s1[i++];
+            // }
+            for(int k = i; k<s1.length(); k++){
+                sum += s1[k];
             }
             return sum;
         }
@@ -67,22 +73,14 @@ public:
         int n = s2.length();
         vector<vector<int>> dp(m+1, vector<int>(n+1, 0));
 
-        //i = len
-        for(int col = 0; col<=n; col++){
-            int sum = 0;
-            while(col<s2.length()){
-                sum += s2[col++];
-            }
-            dp[m][col] = sum;
+        dp[m][n] = 0;
+
+        for(int col = n-1; col>=0; col-- ){
+            dp[m][col] = s2[col] + dp[m][col+1];
         }
 
-        //for j = len
-        for(int row = 0; row<=n; row++){
-            int sum = 0;
-            while(row<s1.length()){
-                sum += s1[row++];
-            }
-            dp[row][n] = sum;
+        for(int row = m-1; row>=0; row-- ){
+            dp[row][n] = s1[row] + dp[row+1][n];
         }
 
         for(int i = m-1; i>=0; i--){
@@ -104,11 +102,11 @@ public:
     int minimumDeleteSum(string s1, string s2) {
         //return solveRec(s1, s2, 0,0);
 
-        // int m = s1.length();
-        // int n = s2.length();
-        // vector<vector<int>> dp(m+1, vector<int>(n+1, -1));
-        // return solveMem(s1,s2, 0,0,dp);
+        int m = s1.length();
+        int n = s2.length();
+        //vector<vector<int>> dp(m+1, vector<int>(n+1, -1));
+        //return solveMem(s1,s2, 0,0,dp);
 
-        
+        return solveTab(s1, s2);
     }
 };

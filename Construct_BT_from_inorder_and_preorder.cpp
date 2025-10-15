@@ -11,6 +11,7 @@
  */
 class Solution {
 public:
+
     void createMap(vector<int>& inorder, unordered_map<int, int> &valIndexMap){
         for(int i = 0; i<inorder.size(); i++){
             int element = inorder[i];
